@@ -1,0 +1,10 @@
+[
+{
+  "modid": "powertwerk",
+  "name": "Power Twerk",
+  "description": "Twerking for power generation.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["Naxanria"]
+}
+]
