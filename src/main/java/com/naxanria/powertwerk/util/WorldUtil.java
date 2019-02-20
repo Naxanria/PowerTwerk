@@ -1,7 +1,6 @@
 package com.naxanria.powertwerk.util;
 
 import com.naxanria.powertwerk.PTSettings;
-import com.naxanria.powertwerk.PowerTwerk;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -15,14 +14,12 @@ import java.util.List;
 
 public class WorldUtil
 {
-  public static void pulseEnergy(World world, BlockPos pos, EntityPlayer player)
+  public static int pulseEnergy(World world, BlockPos pos, EntityPlayer player)
   {
-    
+    int affected = 0;
     
     int radius = PTSettings.radius;
     boolean shared = PTSettings.sharedBetweenAll;
-  
-    PowerTwerk.logger.info("Power pulse for player: " + player.getName() + ",radius=" + radius + ",shared=" + shared);
   
     List<TileEntity> toShare = new ArrayList<>();
     
@@ -34,8 +31,6 @@ public class WorldUtil
         {
           BlockPos checkPos = pos.add(x, 0, z);
           TileEntity tile = getPowerTile(world, checkPos);
-          
-          //PowerTwerk.logger.info("Tile for " + checkPos + " is " + ((tile == null) ? "null" : tile.getClass().getCanonicalName()));
           
           if (tile == null)
           {
@@ -49,6 +44,7 @@ public class WorldUtil
           else
           {
             givePower(tile, PTSettings.powerGenerated);
+            affected++;
           }
         }
       }
@@ -76,6 +72,7 @@ public class WorldUtil
             else
             {
               givePower(tile, PTSettings.powerGenerated);
+              affected++;
             }
           }
         }
@@ -85,6 +82,7 @@ public class WorldUtil
     if (shared && toShare.size() > 0)
     {
       int per = PTSettings.powerGenerated / toShare.size();
+      affected = toShare.size();
   
       for (TileEntity tile :
         toShare)
@@ -92,6 +90,8 @@ public class WorldUtil
         givePower(tile, per);
       }
     }
+    
+    return affected;
   }
   
   private static void givePower(TileEntity tile, int amount)
@@ -99,7 +99,6 @@ public class WorldUtil
     for (EnumFacing facing :
       EnumFacing.values())
     {
-
       IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, facing);
       
       if (storage == null)
