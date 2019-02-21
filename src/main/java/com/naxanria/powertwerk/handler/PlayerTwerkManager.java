@@ -35,7 +35,7 @@ public class PlayerTwerkManager
         
         int affected = WorldUtil.pulseEnergy(player.world, player.getPosition(), player);
         
-        if (PTSettings.useHunger)
+        if (affected > 0 && PTSettings.useHunger)
         {
           FoodStats foodStats = player.getFoodStats();
           
