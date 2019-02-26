@@ -13,4 +13,7 @@ public class PTSettings
   public static int hungerPerTwerk;
   public static int minHunger = 3;
   
+  public static boolean useBlackList = false;
+  public static String[] blackList = new String[0];
+  
 }

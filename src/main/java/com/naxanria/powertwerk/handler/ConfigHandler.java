@@ -10,6 +10,7 @@ public class ConfigHandler
   
   public static final String GENERAL = Configuration.CATEGORY_GENERAL;
   public static final String HUNGER = "hunger";
+  public static final String BLACKLIST = "blacklist";
   
   public static void init()
   {
@@ -40,6 +41,11 @@ public class ConfigHandler
       "The minimum amount of hunger to be able to power machines with twerking.");
     PTSettings.useHungerPerMachine = config.getBoolean("Hunger Per Machine", HUNGER, false,
       "Each machine affected drains the hunger instead of a set value");
+    
+    PTSettings.useBlackList = config.getBoolean("Use Blacklist", BLACKLIST, false,
+      "Use the blacklist to exclude certain blocks");
+    PTSettings.blackList = config.getStringList("Blacklist", BLACKLIST, new String[0],
+      "The blacklisted blocks, in this format: \"modid:block_id\"");
     
     config.save();
   }

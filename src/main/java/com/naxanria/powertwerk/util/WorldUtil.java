@@ -1,15 +1,21 @@
 package com.naxanria.powertwerk.util;
 
 import com.naxanria.powertwerk.PTSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WorldUtil
@@ -30,6 +36,13 @@ public class WorldUtil
         for (int z = -radius; z <= radius; z++)
         {
           BlockPos checkPos = pos.add(x, 0, z);
+          Block block = world.getBlockState(checkPos).getBlock();
+          
+          if (isInBlackList(block))
+          {
+            continue;
+          }
+          
           TileEntity tile = getPowerTile(world, checkPos);
           
           if (tile == null)
@@ -58,6 +71,13 @@ public class WorldUtil
           for (int z = -radius; z <= radius; z++)
           {
             BlockPos checkPos = pos.add(x, y, z);
+            Block block = world.getBlockState(checkPos).getBlock();
+  
+            if (isInBlackList(block))
+            {
+              continue;
+            }
+            
             TileEntity tile = getPowerTile(world, checkPos);
     
             if (tile == null)
@@ -92,6 +112,41 @@ public class WorldUtil
     }
     
     return affected;
+  }
+  
+  private static boolean isInBlackList(Block block)
+  {
+    if (PTSettings.useBlackList)
+    {
+      String id = getId(block);
+      for (int i = 0; i < PTSettings.blackList.length; i++)
+      {
+        if (PTSettings.blackList[i].equals(id))
+        {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  private static String getId(Block block)
+  {
+    ItemStack stack = new ItemStack(Item.getItemFromBlock(block));
+    String modid = stack.getItem().getCreatorModId(stack);
+    ResourceLocation location = stack.getItem().getRegistryName();
+    
+    if (location == null)
+    {
+      return modid + ":" + "UNKNOWN";
+    }
+    
+    String name = location.getResourcePath();
+    
+    // incorporate meta?
+    
+    return modid + ":" + name;
   }
   
   private static void givePower(TileEntity tile, int amount)
