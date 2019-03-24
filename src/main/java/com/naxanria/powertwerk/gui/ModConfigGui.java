@@ -36,14 +36,14 @@ public class ModConfigGui extends GuiConfig
   
     for (String cat :  config.getCategoryNames())
     {
-      if (cat.equals(ConfigHandler.GENERAL))
-      {
-        elements.addAll(new ConfigElement(config.getCategory(ConfigHandler.GENERAL)).getChildElements());
-      }
-      else
-      {
+//      if (cat.equals(ConfigHandler.GENERAL))
+//      {
+//        elements.addAll(new ConfigElement(config.getCategory(ConfigHandler.GENERAL)).getChildElements());
+//      }
+//      else
+//      {
         elements.add(new ConfigElement(config.getCategory(cat)));
-      }
+//      }
     }
     
     return elements;

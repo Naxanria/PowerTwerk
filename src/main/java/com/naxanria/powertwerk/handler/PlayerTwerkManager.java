@@ -39,22 +39,23 @@ public class PlayerTwerkManager
         {
           FoodStats foodStats = player.getFoodStats();
           
-          int hunger = PTSettings.hungerPerTwerk * (PTSettings.useHungerPerMachine ? affected : 1);
-          
-          if (hunger > foodStats.getSaturationLevel())
-          {
-            hunger = ((int) (hunger - foodStats.getSaturationLevel()));
-            foodStats.setFoodSaturationLevel(0);
-          }
-          
-          if (hunger > foodStats.getFoodLevel())
-          {
-            foodStats.setFoodLevel(0);
-          }
-          else
-          {
-            foodStats.setFoodLevel(foodStats.getFoodLevel() - hunger);
-          }
+          float hunger = PTSettings.hungerPerTwerk * (PTSettings.useHungerPerMachine ? affected : 1);
+          foodStats.addExhaustion(hunger);
+//
+//          if (hunger > foodStats.getSaturationLevel())
+//          {
+//            hunger = ((int) (hunger - foodStats.getSaturationLevel()));
+//            foodStats.setFoodSaturationLevel(0);
+//          }
+//
+//          if (hunger > foodStats.getFoodLevel())
+//          {
+//            foodStats.setFoodLevel(0);
+//          }
+//          else
+//          {
+//            foodStats.setFoodLevel(foodStats.getFoodLevel() - hunger);
+//          }
         }
       }
     }

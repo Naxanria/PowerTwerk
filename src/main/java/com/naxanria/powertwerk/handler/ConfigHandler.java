@@ -21,6 +21,21 @@ public class ConfigHandler
     }
     
     config.load();
+    String loadedConfig = config.getLoadedConfigVersion();
+    if (loadedConfig == null || !loadedConfig.equals(PowerTwerk.CONFIG_VERSION))
+    {
+      boolean changed = false;
+      if (loadedConfig == null)
+      {
+        changed = true;
+        config.renameProperty(HUNGER, "Hunger Per Twerk", "_old_Hunger Per Twerk");
+      }
+      
+      if (changed)
+      {
+        PowerTwerk.logger.warn("Updating config" + ((loadedConfig != null) ? " from " + loadedConfig : "")  + " to version " + PowerTwerk.CONFIG_VERSION);
+      }
+    }
   
     PTSettings.powerGenerated = config.getInt("Power Generation", GENERAL, 42, 1, 10000,
       "The amount of power generated per twerk.");
@@ -35,7 +50,7 @@ public class ConfigHandler
     
     PTSettings.useHunger = config.getBoolean("Use Hunger", HUNGER, false,
       "Use hunger as a resource");
-    PTSettings.hungerPerTwerk = config.getInt("Hunger Per Twerk", HUNGER, 1, 1, 20,
+    PTSettings.hungerPerTwerk = config.getFloat("Hunger Per Twerk", HUNGER, 0.5f, 0.01f, 10,
       "The hunger used per twerk.");
     PTSettings.minHunger = config.getInt("Minimum Hunger", HUNGER, 3, 0, 20,
       "The minimum amount of hunger to be able to power machines with twerking.");

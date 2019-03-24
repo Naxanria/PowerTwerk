@@ -24,6 +24,8 @@ public class PowerTwerk
   public static final String NAME = "Power Twerk";
   public static final String VERSION = "@VERSION@";
   
+  public static final String CONFIG_VERSION = "0.1";
+  
   public static final String PROXY = "com.naxanria." + MODID + ".proxy";
 //
 //  @Mod.Instance
@@ -41,7 +43,7 @@ public class PowerTwerk
   
     File configFile = new File(event.getSuggestedConfigurationFile().getParent(), MODID + "/" + MODID + ".cfg");
     
-    ConfigHandler.config = new Configuration(configFile);
+    ConfigHandler.config = new Configuration(configFile, CONFIG_VERSION);
     ConfigHandler.init();
     
     proxy.registerHandler(new EventHandler());

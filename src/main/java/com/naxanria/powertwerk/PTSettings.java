@@ -10,7 +10,7 @@ public class PTSettings
   
   public static boolean useHunger;
   public static boolean useHungerPerMachine;
-  public static int hungerPerTwerk;
+  public static float hungerPerTwerk;
   public static int minHunger = 3;
   
   public static boolean useBlackList = false;
